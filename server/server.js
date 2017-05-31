@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
+const fs = require('fs');
 
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todos');
@@ -11,6 +12,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+
 app.post('/todos',(req,res)=>{
     const todo = new Todo({
         text: req.body.text
@@ -25,7 +27,6 @@ app.post('/todos',(req,res)=>{
 app.listen(port,()=>{
     console.log(`Server running on ${port}`);
 });
-
 app.get('/todos',(req,res)=>{
    Todo.find().then((todos)=>{
       res.send({todos})
