@@ -1,3 +1,6 @@
+require('./config/config');
+
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
@@ -9,9 +12,12 @@ const {Users} = require('./models/users');
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
+app.listen(port,()=>{
+    console.log(`Server running on ${port}`);
+});
 
 app.post('/todos',(req,res)=>{
     const todo = new Todo({
@@ -24,9 +30,7 @@ app.post('/todos',(req,res)=>{
     })
 });
 
-app.listen(port,()=>{
-    console.log(`Server running on ${port}`);
-});
+
 app.get('/todos',(req,res)=>{
    Todo.find().then((todos)=>{
       res.send({todos})
