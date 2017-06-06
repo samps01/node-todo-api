@@ -22,7 +22,7 @@ app.listen(port,()=>{
 app.post('/todos',(req,res)=>{
     const todo = new Todo({
         text: req.body.text
-    })
+    });
     todo.save().then((data)=>{
         res.send(data);
     },(e)=>{
@@ -52,5 +52,19 @@ app.get('/todos/:id',(req,res)=>{
     }).catch((err)=>{
         res.status(400).send('Bad request');
     })
+});
+
+app.post('/users',(req,res)=>{
+    const userObj = _.pick(req.body,['email','password']);
+    debugger;
+    const user = new Users(userObj);
+
+    user.save().then(()=>{
+        return user.generateAuthToken();
+    }).then((token)=>{
+        res.header('x-auth',token).send(user);
+    }).catch((err)=>{
+       res.send(err);
+    });
 });
 module.exports={app};
