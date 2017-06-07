@@ -9,6 +9,7 @@ const fs = require('fs');
 const {mongoose} = require('./db/mongoose');
 const {Todo} = require('./models/todos');
 const {Users} = require('./models/users');
+const {authenticate} = require('./middleware/authenticate');
 
 const app = express();
 
@@ -66,5 +67,10 @@ app.post('/users',(req,res)=>{
     }).catch((err)=>{
        res.send(err);
     });
+});
+
+
+app.get('/users/me',authenticate,(req,res)=> {
+    res.send(req.user);
 });
 module.exports={app};
