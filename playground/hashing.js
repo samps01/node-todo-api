@@ -2,14 +2,22 @@ const {SHA256} = require('crypto-js');
 
 const jwt = require('jsonwebtoken');
 
-let data = {
-    id:4
-}
-const token = jwt.sign(data,'abc123');
-console.log(token);
+const bcrypt = require('bcryptjs');
 
-const decoded = jwt.verify(token,'abc123');
-console.log(decoded);
+let password = '123abc';
+
+// bcrypt.genSalt(10,(err,salt)=>{
+//    bcrypt.hash(password,salt,(err,hash)=>{
+//       console.log(hash);
+//    });
+// });
+
+let hashedPass = '$2a$10$j2MATU1ivEkApGrDYtuR3ucbPG.mdXlqY56EwqF2hLOhm8vVGHqSi';
+
+bcrypt.compare(password,hashedPass,(err,res)=>{
+   console.log(res);
+});
+
 //
 // let message = "samson";
 //
